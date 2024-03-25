@@ -1,0 +1,22 @@
+m1 =func( a11+a12,b13)
+ m2 =func( -a11+a21+a22+a13-a23,-b11+b21+b12)
+ m3 =func( a11-a21+a12-a22-a13+a23,b21+b13)
+ m4 =func( a12-a22-a13+a23,-b13+b23)
+ m5 =func( a11-a21-a13+a23,-b11+b21)
+ m6 =func( a22,b11-b21+b22+b32)
+ m7 =func( a12,b22-b13+b23)
+ m8 =func( a22-a23,b12+b32)
+ m9 =func( a11-a13,b12)
+ m10 =func( -a22-a13+a23,b12+b32+b13-b23)
+ m11 =func( -a13+a23,b11+b31+b23+b33)
+ m12 =func( -a21-a22,b11+b31)
+ m13 =func( a13,b12+b32+b33)
+ m14 =func( -a21-a22+a23,b31+b12)
+ m15 =func( a21+a22+a13-a23,b11+b31+b13)
+
+c11 = -m1+m2+m3+m9+m14+m15
+c12 = -m4+m7-m8+m9-m10
+c13 = m1+m4+m8+m10+m13
+c21 = m2+m5+m9-m12+m14
+c22 = m2+m5+m6-m8+m9
+c23 = m8+m10+m11+m12+m13+m15

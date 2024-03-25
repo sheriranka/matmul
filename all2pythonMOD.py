@@ -124,11 +124,8 @@ def func_head(f,mod0,tensor):
 #write functions by reading from file 
 
     
-def writemod0(f,w,tensor):
+def writemod0(f,w):
     
-    m = tensor[0]
-    n = tensor[1]
-    p = tensor[2]
     #strings
     s = "strassenIt"
     #i had to look this up
@@ -153,11 +150,8 @@ def writemod0(f,w,tensor):
         w.write(new)
 
 
-def writemod2(f,w,tensor):
+def writemod2(f,w):
     
-    m = tensor[0]
-    n = tensor[1]
-    p = tensor[2]
     #strings
     s = "strassenItmod2"
     #i had to look this up
@@ -212,9 +206,9 @@ def all2python(filename,mod0,w):
     
     #call read
     if mod0:
-        writemod0(f, w, t)
+        writemod0(f, w)
     else:
-        writemod2(f, w, t)
+        writemod2(f, w)
     
     w.write("\n")
     
@@ -229,7 +223,7 @@ def all2python(filename,mod0,w):
     
 #actually read all the files now!
 fs = open("files.txt","r")
-md = open("flips/solutions/files.txt","r")
+md = open("filesmod.txt","r")
 
 w = open("allPython.txt", "a")
 files = fs.readline().split()
