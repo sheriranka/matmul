@@ -370,81 +370,6 @@ def mat444mod2(a,b,depth):
 	return result
 
 
-
-def div4x4(a):
-
-	col = len(a)//4
-	row = len(a[1])//4
-
-	#row 1
-
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	#row 2
-
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	#row 3
-
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	#row 4
-
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-
-	return (a11, a12, a13, a14, 
-	  a21, a22, a23, a24, 
-	  a31, a32, a33, a34, 
-	  a41, a42, a43, a44)
-
-def div4x5(a):
-
-	col = len(a)//4
-	row = len(a[1])//5
-
-	#row 1
-
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	a15 = a[4*row:5*row,0:col]
-	#row 2
-
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	a25 = a[4*row:5*row,col:1*col]
-	#row 3
-
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	a35 = a[4*row:5*row,2*col:3*col]
-	#row 4
-
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-	a45 = a[4*row:5*row,3*col:4*col]
-
-	return (a11, a12, a13, a14, a15, 
-	  a21, a22, a23, a24, a25, 
-	  a31, a32, a33, a34, a35, 
-	  a41, a42, a43, a44, a45)
-
 def mat445mod2(a,b,depth):
 
 	a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
@@ -541,80 +466,6 @@ def mat445mod2(a,b,depth):
 	return result
 
 
-
-def div4x4(a):
-
-	col = len(a)//4
-	row = len(a[1])//4
-
-	#row 1
-
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	#row 2
-
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	#row 3
-
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	#row 4
-
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-
-	return (a11, a12, a13, a14, 
-	  a21, a22, a23, a24, 
-	  a31, a32, a33, a34, 
-	  a41, a42, a43, a44)
-
-def div4x5(a):
-
-	col = len(a)//4
-	row = len(a[1])//5
-
-	#row 1
-
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	a15 = a[4*row:5*row,0:col]
-	#row 2
-
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	a25 = a[4*row:5*row,col:1*col]
-	#row 3
-
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	a35 = a[4*row:5*row,2*col:3*col]
-	#row 4
-
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-	a45 = a[4*row:5*row,3*col:4*col]
-
-	return (a11, a12, a13, a14, a15, 
-	  a21, a22, a23, a24, a25, 
-	  a31, a32, a33, a34, a35, 
-	  a41, a42, a43, a44, a45)
 
 def mat445(a,b,depth):
 
@@ -714,45 +565,6 @@ def mat445(a,b,depth):
 	return result
 
 
-
-def div4x5(a):
-
-	col = len(a)//4
-	row = len(a[1])//5
-
-	#row 1
-
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	a15 = a[4*row:5*row,0:col]
-	#row 2
-
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	a25 = a[4*row:5*row,col:1*col]
-	#row 3
-
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	a35 = a[4*row:5*row,2*col:3*col]
-	#row 4
-
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-	a45 = a[4*row:5*row,3*col:4*col]
-
-	return (a11, a12, a13, a14, a15, 
-	  a21, a22, a23, a24, a25, 
-	  a31, a32, a33, a34, a35, 
-	  a41, a42, a43, a44, a45)
 
 def div5x5(a):
 
@@ -913,54 +725,6 @@ def mat455(a,b,depth):
 	return result
 
 
-
-def div5x5(a):
-
-	col = len(a)//5
-	row = len(a[1])//5
-
-	#row 1
-
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	a15 = a[4*row:5*row,0:col]
-	#row 2
-
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	a25 = a[4*row:5*row,col:1*col]
-	#row 3
-
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	a35 = a[4*row:5*row,2*col:3*col]
-	#row 4
-
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-	a45 = a[4*row:5*row,3*col:4*col]
-	#row 5
-
-	a51 = a[0:row,4*col:5*col]
-	a52 = a[row:1*row,4*col:5*col]
-	a53 = a[2*row:3*row,4*col:5*col]
-	a54 = a[3*row:4*row,4*col:5*col]
-	a55 = a[4*row:5*row,4*col:5*col]
-
-	return (a11, a12, a13, a14, a15, 
-	  a21, a22, a23, a24, a25, 
-	  a31, a32, a33, a34, a35, 
-	  a41, a42, a43, a44, a45, 
-	  a51, a52, a53, a54, a55)
-
 def mat555mod2(a,b,depth):
 
 	a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45, a51, a52, a53, a54, a55 = div5x5(a)
@@ -1096,54 +860,6 @@ def mat555mod2(a,b,depth):
 
 	return result
 
-
-
-def div5x5(a):
-
-	col = len(a)//5
-	row = len(a[1])//5
-
-	#row 1
-
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	a15 = a[4*row:5*row,0:col]
-	#row 2
-
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	a25 = a[4*row:5*row,col:1*col]
-	#row 3
-
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	a35 = a[4*row:5*row,2*col:3*col]
-	#row 4
-
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-	a45 = a[4*row:5*row,3*col:4*col]
-	#row 5
-
-	a51 = a[0:row,4*col:5*col]
-	a52 = a[row:1*row,4*col:5*col]
-	a53 = a[2*row:3*row,4*col:5*col]
-	a54 = a[3*row:4*row,4*col:5*col]
-	a55 = a[4*row:5*row,4*col:5*col]
-
-	return (a11, a12, a13, a14, a15, 
-	  a21, a22, a23, a24, a25, 
-	  a31, a32, a33, a34, a35, 
-	  a41, a42, a43, a44, a45, 
-	  a51, a52, a53, a54, a55)
 
 def mat555(a,b,depth):
 
