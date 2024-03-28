@@ -8,8 +8,8 @@ def divide(m,n,f):
     
     f.write(f'def div{m}x{n}(a):\n\n')
     
-    f.write(f'\tcol = len(a)/{m}\n')
-    f.write(f'\trow = len(a[1])/{n}\n\n')
+    f.write(f'\tcol = len(a)//{m}\n')
+    f.write(f'\trow = len(a[1])//{n}\n\n')
       
     #variable assignment
     
@@ -65,15 +65,15 @@ def build(m, n, f):
     
     f.write("\tresult = np.concatenate((")
     
-    for i in range(1,m+1):
-        f.write("np.concatenate(")
-        for j in range(1,n+1):
-            if j == n:
+    for i in range(1,n+1):
+        f.write("np.concatenate((")
+        for j in range(1,m+1):
+            if j == m:
                 f.write(f'c{j}{i}')
             else:
                 f.write(f'c{j}{i}, ')
         
-        if i == m:
+        if i == n:
             f.write('), axis=0)), ')
         else:
             f.write('), axis=0), ')
@@ -95,7 +95,7 @@ def func_head(f,mod0,tensor):
     f.write(f'def mat{m}{n}{p}')
     if not mod0:
         f.write("mod2")
-    f.write("(a,b):")
+    f.write("(a,b,depth):")
     f.write("\n\n")
     #write matrix variables
     #a
@@ -118,25 +118,29 @@ def func_head(f,mod0,tensor):
     f.write(f'= div{n}x{p}(b)\n')
     
     f.write("\n\n")
+    f.write("\tif depth == 0:\n")
+    if mod0:
+        f.write("\t\treturn strassenInit(a,b,True)")
+    else:
+        f.write("\t\treturn strassenInit(a,b,False)")
+        
+    f.write("\n\telse:\n")
     
-    
-  
 #write functions by reading from file 
 
     
-def writemod0(f,w):
+def writemod0(f,w,tensor):
     
     #strings
-    s = "strassenIt"
+    s = f'mat{tensor[0]}{tensor[1]}{tensor[2]}'
     #i had to look this up
-    #https://www.geeksforgeeks.org/python-replace-all-occurrences-of-a-substring-in-a-string/
-    
+
     while True:
         c = f.read(1)
         if not c:
             break
         
-        w.write("\t")
+        w.write("\t\t")
         if c == " ":
             #skip weird space and read entire line
             c = f.readline()
@@ -147,22 +151,21 @@ def writemod0(f,w):
             c = f.readline()
             
         new = c.replace("func",s)
+        new = new.replace(")",", depth-1)")
         w.write(new)
 
 
-def writemod2(f,w):
+def writemod2(f,w,tensor):
     
     #strings
-    s = "strassenItmod2"
-    #i had to look this up
-    #https://www.geeksforgeeks.org/python-replace-all-occurrences-of-a-substring-in-a-string/
+    s = f'mat{tensor[0]}{tensor[1]}{tensor[2]}mod2'
     
     while True:
         c = f.read(1)
         if not c:
             break
         
-        w.write("\t")
+        w.write("\t\t")
         if c == " ":
             #skip weird space and read entire line
             c = f.readline()
@@ -174,9 +177,9 @@ def writemod2(f,w):
             
         new = c.replace("func",s)
         new = new.replace("+","^")
+        new = new.replace(")",", depth-1)")
         w.write(new)
         
-    
 
 #filename
 #mod0, true or false
@@ -206,9 +209,9 @@ def all2python(filename,mod0,w):
     
     #call read
     if mod0:
-        writemod0(f, w)
+        writemod0(f, w, t)
     else:
-        writemod2(f, w)
+        writemod2(f, w, t)
     
     w.write("\n")
     

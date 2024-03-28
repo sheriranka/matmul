@@ -1,115 +1,3 @@
-import numpy as np
-
-
-#strassenMod2
-
-def strassen(a,b,depth,m,n):
-    
-    if depth < 1:
-        return a @ b
-    
-    
-    P1 = strassen(a[0:m,0:m],b[0:m,m:n]-b[m,m<<1:m,m<<1], depth-1, m>>1,m)
-    P2 = strassen(a[0:m,0:m]+a[0:m,m,m<<1],b[m,m<<1:m,m<<1], depth-1, m>>1,m)
-    P3 = strassen(a[m:n,0:m]+a[m:n,m:n],b[0:m,0:m], depth-1, m>>1,m)
-    P4 = strassen(a[m:n,m:n],b[m:n,0:m]-b[0:m,0:m], depth-1, m>>1,m)
-    P5 = strassen(a[0:m,0:m]+a[m:n,m:n],b[0:m,0:m]+b[m:n,m:n],depth-1,m>>1,m)
-    P6 = strassen(a[0:m,m:n]-a[m:n,m:n],b[m:n,0:m]+b[m:n,m:n],depth-1,m>>1,m)
-    P7 = strassen(a[0:m,0:m]-a[m:n,0:m],b[0:m,0:m]+b[0:m,m:n],depth-1,m>>1,m)  
-    
-    c11 = P5 + P4 - P2 + P6
-    c21 = P3 + P4
-    c12 = P1 + P2
-    c22 = P5 + P1 - P3 - P7
-    
-    c = np.concatenate((np.concatenate((c11, c21), axis=0), np.concatenate((c12, c22), axis=0)), axis=1)
-  
-    return c
-
-
-def strassenMod2(a,b,depth,m,n):
-    
-    if depth < 1:
-        return a @ b
-    
-    
-    P1 = strassenMod2(a[0:m,0:m],b[0:m,m:n]^b[m,m<<1:m,m<<1], depth-1, m>>1,m)
-    P2 = strassenMod2(a[0:m,0:m]^a[0:m,m,m<<1],b[m,m<<1:m,m<<1], depth-1, m>>1,m)
-    P3 = strassenMod2(a[m:n,0:m]^a[m:n,m:n],b[0:m,0:m], depth-1, m>>1,m)
-    P4 = strassenMod2(a[m:n,m:n],b[m:n,0:m]^b[0:m,0:m], depth-1, m>>1,m)
-    P5 = strassenMod2(a[0:m,0:m]^a[m:n,m:n],b[0:m,0:m]^b[m:n,m:n],depth-1,m>>1,m)
-    P6 = strassenMod2(a[0:m,m:n]^a[m:n,m:n],b[m:n,0:m]^b[m:n,m:n],depth-1,m>>1,m)
-    P7 = strassenMod2(a[0:m,0:m]^a[m:n,0:m],b[0:m,0:m]^b[0:m,m:n],depth-1,m>>1,m)  
-    
-    c11 = P5 ^ P4 ^ P2 ^ P6
-    c21 = P3 ^ P4
-    c12 = P1 ^ P2
-    c22 = P5 ^ P1 ^ P3 ^ P7
-    
-    c = np.concatenate((np.concatenate((c11, c21), axis=0), np.concatenate((c12, c22), axis=0)), axis=1)
-  
-    return c
-
-def strassenInit(a,b,mod2):
-      
-    if len(a) == len(b) and len(b) == len(b[0]):  
-        n = len(a)
-        m = n>>1
-        depth = 0
-        #get log2 div
-        #edit later
-        while not(n & 1) and n>=32:
-            depth += 1
-            n = n >> 1
-        
-        if depth != 0:
-            if mod2:
-                return strassenMod2(a,b,depth,m,m<<1)
-            return strassen(a,b,depth,m,m<<1)
-        else:
-            return a @ b
-    else:
-        return a @ b
-
-    
-## UNUSED & NEVER FINISHED
-# def strassenIt(a,b,depth,m):
-    
-#     n = m << 1
-#     P = np.zeros([depth,7,m,m])
-#     c = np.zeros([n,n])
-#     ax = np.zeros([depth,n,n])
-#     bx = np.zeros([depth,n,n])
-#     cx = np.zeros([depth,n,n])
-    
-#     #individual Ps
-#     for x in range(7):
-#         #recurssion layer
-#         for y in range(depth,-1,-1):
-            
-#             if y == depth:
-#                 #do regular matmulfor deepest layer
-#                 True
-                
-#             else:
-#                 #do strassen for other layers
-#                 False
-    
-    
-    
-    
-#     c[0:m,0:m] = P[4] + P[3] - P[1] + P[5]
-#     c[0:m,m:n] = P[0] + P[1]
-#     c[m:n,0:m] = P[2] + P[3]
-#     c[m:n,m:n] = P[4] + P[0] - P[3] - P[6]
-    
-    
-#     return c
-    
-
-###THE FOLLOWING WAS GENERATED WITH SCRIPTS
-
-
 def div3x4(a):
 
 	col = len(a)//3
@@ -250,7 +138,7 @@ def mat345(a,b,depth):
 		c34 = -m1+m2-m3-m9-m14+m16-m17+m22-m25+m26+m28+m30+m31+m33-m34+m36-m39+m45+m47
 		c35 = m1+m3+m6+m9+m14+m17+m25-m30+m34+m39
 
-	result = np.concatenate((np.concatenate((c11, c21, c31), axis=0), np.concatenate((c12, c22, c32), axis=0), np.concatenate((c13, c23, c33), axis=0), np.concatenate((c14, c24, c34), axis=0), np.concatenate((c15, c25, c35), axis=0)), axis=1)
+	result = np.concatenate((np.concatenate((c11, c21, c31, c41, c51), axis=0), np.concatenate((c12, c22, c32, c42, c52), axis=0), np.concatenate((c13, c23, c33, c43, c53), axis=0)), axis=1)
 
 	return result
 
@@ -289,9 +177,7 @@ def div4x4(a):
 	return (a11, a12, a13, a14, 
 	  a21, a22, a23, a24, 
 	  a31, a32, a33, a34, 
-	  a41, a42, a43, a44)
-
-def mat444mod2(a,b,depth):
+	  a41, a42, a43, a44)def mat444mod2(a,b,depth):
 
 	a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
 	b11, b12, b13, b14, b21, b22, b23, b24, b31, b32, b33, b34, b41, b42, b43, b44 = div4x4(b)
@@ -536,7 +422,7 @@ def mat445mod2(a,b,depth):
 		c44 = m2^m7^m20^m26^m39^m44^m48^m49^m53^m57
 		c45 = m3^m4^m31^m35^m37^m40^m45^m53^m60
 
-	result = np.concatenate((np.concatenate((c11, c21, c31, c41), axis=0), np.concatenate((c12, c22, c32, c42), axis=0), np.concatenate((c13, c23, c33, c43), axis=0), np.concatenate((c14, c24, c34, c44), axis=0), np.concatenate((c15, c25, c35, c45), axis=0)), axis=1)
+	result = np.concatenate((np.concatenate((c11, c21, c31, c41, c51), axis=0), np.concatenate((c12, c22, c32, c42, c52), axis=0), np.concatenate((c13, c23, c33, c43, c53), axis=0), np.concatenate((c14, c24, c34, c44, c54), axis=0)), axis=1)
 
 	return result
 
@@ -709,7 +595,7 @@ def mat445(a,b,depth):
 		c44 = m1-2*m5-2*m12-m17-m18-2*m31-m40+m42-2*m48+m57
 		c45 = m5+m12+m17+m18+m31+m40+m48
 
-	result = np.concatenate((np.concatenate((c11, c21, c31, c41), axis=0), np.concatenate((c12, c22, c32, c42), axis=0), np.concatenate((c13, c23, c33, c43), axis=0), np.concatenate((c14, c24, c34, c44), axis=0), np.concatenate((c15, c25, c35, c45), axis=0)), axis=1)
+	result = np.concatenate((np.concatenate((c11, c21, c31, c41, c51), axis=0), np.concatenate((c12, c22, c32, c42, c52), axis=0), np.concatenate((c13, c23, c33, c43, c53), axis=0), np.concatenate((c14, c24, c34, c44, c54), axis=0)), axis=1)
 
 	return result
 
@@ -908,7 +794,7 @@ def mat455(a,b,depth):
 		c44 = m2+m3-m4+m5-m12+m15-m23+m24+m27-m32+m36+m41-m43+m46-m56+m58+m60+m64+m65+m76
 		c45 = m2+m4+m6+m18+m28+m35+m39+m44+m47+2*m53+m55-2*m56+m57+2*m59+m68+2*m70+m73+m74+m76
 
-	result = np.concatenate((np.concatenate((c11, c21, c31, c41), axis=0), np.concatenate((c12, c22, c32, c42), axis=0), np.concatenate((c13, c23, c33, c43), axis=0), np.concatenate((c14, c24, c34, c44), axis=0), np.concatenate((c15, c25, c35, c45), axis=0)), axis=1)
+	result = np.concatenate((np.concatenate((c11, c21, c31, c41, c51), axis=0), np.concatenate((c12, c22, c32, c42, c52), axis=0), np.concatenate((c13, c23, c33, c43, c53), axis=0), np.concatenate((c14, c24, c34, c44, c54), axis=0)), axis=1)
 
 	return result
 
@@ -1143,9 +1029,7 @@ def div5x5(a):
 	  a21, a22, a23, a24, a25, 
 	  a31, a32, a33, a34, a35, 
 	  a41, a42, a43, a44, a45, 
-	  a51, a52, a53, a54, a55)
-
-def mat555(a,b,depth):
+	  a51, a52, a53, a54, a55)def mat555(a,b,depth):
 
 	a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45, a51, a52, a53, a54, a55 = div5x5(a)
 	b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45, b51, b52, b53, b54, b55 = div5x5(b)
@@ -1284,97 +1168,3 @@ def mat555(a,b,depth):
 
 
 
-
-
-
-
-#decide what algoritmm to use :3
-def multdecide(a,b,mod2):
-    
-    #square
-    sq = False
-    n = len(a)
-    m = len(b)
-    p = len(b[0])
-    depth = 0
-    
-    if n == m and m == p:
-        sq = True
-        
-    if sq:
-        if n%4 == 0:
-            x = n
-            while(x%4 == 0 and x>1000):
-                depth += 1
-                x = x>>2            
-            if n > 1000:
-                if mod2:
-                    c = mat444mod2(a,b,depth)
-                c = strassenInit(a,b,depth)
-            else:
-                c = strassenInit(a, b, mod2)
-        elif n%5 == 0:
-            x = n
-            while(x%5 == 0 and x>1000):
-                depth += 1
-                x = x/5            
-            if n > 1000:
-                if mod2:
-                    c = mat555mod2(a,b,depth)
-                c = mat555(a,b,depth)
-            else:
-                c = strassenInit(a, b, mod2)
-    elif(n%3 == 0 and m%4 == 0 and p%5 == 0 and not mod2):
-        x = n
-        y = m
-        z = p
-        while(x%3 == 0 and y%4 ==0 and z%5==0 and z>1000):
-            depth += 1
-            x = x/3
-            y = y>>2
-            z = z/5
-        if p > 1000:
-            c = mat345(a,b,depth)
-        else:
-            strassenInit(a,b,mod2)
-    elif(n%4 == 0 and n==m and p%5==0):
-        x = n
-        z = p
-        while(x%4 == 0 and z%5==0 and z>1000):
-            depth += 1
-            x = x >> 2
-            z = z/5
-        if p > 1000:
-            if mod2:
-                c = mat445mod2(a,b,depth)
-            c = mat445(a,b,depth)
-        else:
-            strassenInit(a,b,mod2)
-    elif(n%4==0 and p%5==0 and m==p and not mod2):
-        x = n
-        z = p
-        while(x%4 == 0 and z%5==0 and z>1000):
-            depth += 1
-            x = x >> 2
-            z = z/5
-        if p > 1000:
-            c = mat455(a,b,depth)   
-    else:
-        c = strassenInit(a,b,mod2)
-        
-        
-    return c
-    
-
-def matMul(a,b,mod2):
-    
-    if mod2:
-        #convert to bool for xors
-        c = multdecide(a.astype(bool), b.astype(bool),True)
-        #convert back to int for result
-        c = c.astype(int)
-    else:
-        c = multdecide(a, b,False)
-    
-    return c
-      
