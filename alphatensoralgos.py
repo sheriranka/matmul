@@ -8,9 +8,8 @@ def strassen(a,b,depth,m,n):
     if depth < 1:
         return a @ b
     
-    
-    P1 = strassen(a[0:m,0:m],b[0:m,m:n]-b[m,m<<1:m,m<<1], depth-1, m>>1,m)
-    P2 = strassen(a[0:m,0:m]+a[0:m,m,m<<1],b[m,m<<1:m,m<<1], depth-1, m>>1,m)
+    P1 = strassen(a[0:m,0:m],b[0:m,m:n]-b[m:n,m:n], depth-1, m>>1,m)
+    P2 = strassen(a[0:m,0:m]+a[0:m,m:n],b[m:n,m:n], depth-1, m>>1,m)
     P3 = strassen(a[m:n,0:m]+a[m:n,m:n],b[0:m,0:m], depth-1, m>>1,m)
     P4 = strassen(a[m:n,m:n],b[m:n,0:m]-b[0:m,0:m], depth-1, m>>1,m)
     P5 = strassen(a[0:m,0:m]+a[m:n,m:n],b[0:m,0:m]+b[m:n,m:n],depth-1,m>>1,m)
@@ -33,8 +32,8 @@ def strassenMod2(a,b,depth,m,n):
         return a @ b
     
     
-    P1 = strassenMod2(a[0:m,0:m],b[0:m,m:n]^b[m,m<<1:m,m<<1], depth-1, m>>1,m)
-    P2 = strassenMod2(a[0:m,0:m]^a[0:m,m,m<<1],b[m,m<<1:m,m<<1], depth-1, m>>1,m)
+    P1 = strassenMod2(a[0:m,0:m],b[0:m,m:n]^b[m:n,m:n], depth-1, m>>1,m)
+    P2 = strassenMod2(a[0:m,0:m]^a[0:m,m:n],b[m:n,m:n], depth-1, m>>1,m)
     P3 = strassenMod2(a[m:n,0:m]^a[m:n,m:n],b[0:m,0:m], depth-1, m>>1,m)
     P4 = strassenMod2(a[m:n,m:n],b[m:n,0:m]^b[0:m,0:m], depth-1, m>>1,m)
     P5 = strassenMod2(a[0:m,0:m]^a[m:n,m:n],b[0:m,0:m]^b[m:n,m:n],depth-1,m>>1,m)
@@ -113,26 +112,26 @@ def strassenInit(a,b,mod2):
 def div3x4(a):
 
 	col = len(a)//3
-	row = len(a[1])//4
+	row = len(a[0])//4
 
 	#row 1
 
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
+	a11 = a[0:col,0:row]
+	a12 = a[0:col,row:2*row]
+	a13 = a[0:col,2*row:3*row]
+	a14 = a[0:col,3*row:4*row]
 	#row 2
 
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
+	a21 = a[col:2*col,0:row]
+	a22 = a[col:2*col,row:2*row]
+	a23 = a[col:2*col,2*row:3*row]
+	a24 = a[col:2*col,3*row:4*row]
 	#row 3
 
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
+	a31 = a[2*col:3*col,0:row]
+	a32 = a[2*col:3*col,row:2*row]
+	a33 = a[2*col:3*col,2*row:3*row]
+	a34 = a[2*col:3*col,3*row:4*row]
 
 	return (a11, a12, a13, a14, 
 	  a21, a22, a23, a24, 
@@ -141,51 +140,55 @@ def div3x4(a):
 def div4x5(a):
 
 	col = len(a)//4
-	row = len(a[1])//5
+	row = len(a[0])//5
 
 	#row 1
 
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	a15 = a[4*row:5*row,0:col]
+	a11 = a[0:col,0:row]
+	a12 = a[0:col,row:2*row]
+	a13 = a[0:col,2*row:3*row]
+	a14 = a[0:col,3*row:4*row]
+	a15 = a[0:col,4*row:5*row]
 	#row 2
 
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	a25 = a[4*row:5*row,col:1*col]
+	a21 = a[col:2*col,0:row]
+	a22 = a[col:2*col,row:2*row]
+	a23 = a[col:2*col,2*row:3*row]
+	a24 = a[col:2*col,3*row:4*row]
+	a25 = a[col:2*col,4*row:5*row]
 	#row 3
 
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	a35 = a[4*row:5*row,2*col:3*col]
+	a31 = a[2*col:3*col,0:row]
+	a32 = a[2*col:3*col,row:2*row]
+	a33 = a[2*col:3*col,2*row:3*row]
+	a34 = a[2*col:3*col,3*row:4*row]
+	a35 = a[2*col:3*col,4*row:5*row]
 	#row 4
 
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-	a45 = a[4*row:5*row,3*col:4*col]
+	a41 = a[3*col:4*col,0:row]
+	a42 = a[3*col:4*col,row:2*row]
+	a43 = a[3*col:4*col,2*row:3*row]
+	a44 = a[3*col:4*col,3*row:4*row]
+	a45 = a[3*col:4*col,4*row:5*row]
 
 	return (a11, a12, a13, a14, a15, 
 	  a21, a22, a23, a24, a25, 
 	  a31, a32, a33, a34, a35, 
 	  a41, a42, a43, a44, a45)
 
+
+
 def mat345(a,b,depth):
-
-	a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34 = div3x4(a)
-	b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45 = div4x5(b)
-
 
 	if depth == 0:
 		return strassenInit(a,b,True)
 	else:
+
+
+		a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34 = div3x4(a)
+		b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45 = div4x5(b)
+
+
 		m1 =mat345( -a32+a33+a14-a24,b21-b22+b42-b23+b43-b24-b25, depth-1)
 		m2 =mat345( -a31-a33+a34,-b21+b22+b23+b24+b44+b45, depth-1)
 		m3 =mat345( -a31-a33+a24,-b11-b21+b12+b22+b13+b23+2*b14+b24+b44+b15+b45, depth-1)
@@ -259,32 +262,32 @@ def mat345(a,b,depth):
 def div4x4(a):
 
 	col = len(a)//4
-	row = len(a[1])//4
+	row = len(a[0])//4
 
 	#row 1
 
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
+	a11 = a[0:col,0:row]
+	a12 = a[0:col,row:2*row]
+	a13 = a[0:col,2*row:3*row]
+	a14 = a[0:col,3*row:4*row]
 	#row 2
 
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
+	a21 = a[col:2*col,0:row]
+	a22 = a[col:2*col,row:2*row]
+	a23 = a[col:2*col,2*row:3*row]
+	a24 = a[col:2*col,3*row:4*row]
 	#row 3
 
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
+	a31 = a[2*col:3*col,0:row]
+	a32 = a[2*col:3*col,row:2*row]
+	a33 = a[2*col:3*col,2*row:3*row]
+	a34 = a[2*col:3*col,3*row:4*row]
 	#row 4
 
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
+	a41 = a[3*col:4*col,0:row]
+	a42 = a[3*col:4*col,row:2*row]
+	a43 = a[3*col:4*col,2*row:3*row]
+	a44 = a[3*col:4*col,3*row:4*row]
 
 	return (a11, a12, a13, a14, 
 	  a21, a22, a23, a24, 
@@ -293,13 +296,15 @@ def div4x4(a):
 
 def mat444mod2(a,b,depth):
 
-	a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
-	b11, b12, b13, b14, b21, b22, b23, b24, b31, b32, b33, b34, b41, b42, b43, b44 = div4x4(b)
-
-
 	if depth == 0:
 		return strassenInit(a,b,False)
 	else:
+
+
+		a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
+		b11, b12, b13, b14, b21, b22, b23, b24, b31, b32, b33, b34, b41, b42, b43, b44 = div4x4(b)
+
+
 		m1 =mat444mod2( a14,b31^b12^b22^b42^b13^b23^b33^b43^b14^b24^b34^b44, depth-1)
 		m2 =mat444mod2( a41^a42^a23^a43^a14,b31^b12^b22^b42^b13^b23^b33^b43^b34, depth-1)
 		m3 =mat444mod2( a41^a43^a44,b11^b21^b41^b12^b22^b42^b24^b34, depth-1)
@@ -370,15 +375,19 @@ def mat444mod2(a,b,depth):
 	return result
 
 
+
+
 def mat445mod2(a,b,depth):
-
-	a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
-	b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45 = div4x5(b)
-
 
 	if depth == 0:
 		return strassenInit(a,b,False)
 	else:
+
+
+		a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
+		b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45 = div4x5(b)
+
+
 		m1 =mat445mod2( a12^a42^a13^a23^a43^a14^a24,b32^b35, depth-1)
 		m2 =mat445mod2( a12,b11^b13^b43^b24^b15^b25^b45, depth-1)
 		m3 =mat445mod2( a21^a41^a43,b11^b15^b35, depth-1)
@@ -469,13 +478,15 @@ def mat445mod2(a,b,depth):
 
 def mat445(a,b,depth):
 
-	a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
-	b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45 = div4x5(b)
-
-
 	if depth == 0:
 		return strassenInit(a,b,True)
 	else:
+
+
+		a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44 = div4x4(a)
+		b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45 = div4x5(b)
+
+
 		m1 =mat445( a41-a42,b14+b15, depth-1)
 		m2 =mat445( 2*a14-a34-a44,-b42-b43+b44, depth-1)
 		m3 =mat445( a11-a41+a42+a23+a43+a14+a24-a34,b11+b41-b22+b13-b33+b43+2*b14+b24-b34+3*b44-b35+b45, depth-1)
@@ -565,47 +576,46 @@ def mat445(a,b,depth):
 	return result
 
 
-
 def div5x5(a):
 
 	col = len(a)//5
-	row = len(a[1])//5
+	row = len(a[0])//5
 
 	#row 1
 
-	a11 = a[0:row,0:col]
-	a12 = a[row:1*row,0:col]
-	a13 = a[2*row:3*row,0:col]
-	a14 = a[3*row:4*row,0:col]
-	a15 = a[4*row:5*row,0:col]
+	a11 = a[0:col,0:row]
+	a12 = a[0:col,row:2*row]
+	a13 = a[0:col,2*row:3*row]
+	a14 = a[0:col,3*row:4*row]
+	a15 = a[0:col,4*row:5*row]
 	#row 2
 
-	a21 = a[0:row,col:1*col]
-	a22 = a[row:1*row,col:1*col]
-	a23 = a[2*row:3*row,col:1*col]
-	a24 = a[3*row:4*row,col:1*col]
-	a25 = a[4*row:5*row,col:1*col]
+	a21 = a[col:2*col,0:row]
+	a22 = a[col:2*col,row:2*row]
+	a23 = a[col:2*col,2*row:3*row]
+	a24 = a[col:2*col,3*row:4*row]
+	a25 = a[col:2*col,4*row:5*row]
 	#row 3
 
-	a31 = a[0:row,2*col:3*col]
-	a32 = a[row:1*row,2*col:3*col]
-	a33 = a[2*row:3*row,2*col:3*col]
-	a34 = a[3*row:4*row,2*col:3*col]
-	a35 = a[4*row:5*row,2*col:3*col]
+	a31 = a[2*col:3*col,0:row]
+	a32 = a[2*col:3*col,row:2*row]
+	a33 = a[2*col:3*col,2*row:3*row]
+	a34 = a[2*col:3*col,3*row:4*row]
+	a35 = a[2*col:3*col,4*row:5*row]
 	#row 4
 
-	a41 = a[0:row,3*col:4*col]
-	a42 = a[row:1*row,3*col:4*col]
-	a43 = a[2*row:3*row,3*col:4*col]
-	a44 = a[3*row:4*row,3*col:4*col]
-	a45 = a[4*row:5*row,3*col:4*col]
+	a41 = a[3*col:4*col,0:row]
+	a42 = a[3*col:4*col,row:2*row]
+	a43 = a[3*col:4*col,2*row:3*row]
+	a44 = a[3*col:4*col,3*row:4*row]
+	a45 = a[3*col:4*col,4*row:5*row]
 	#row 5
 
-	a51 = a[0:row,4*col:5*col]
-	a52 = a[row:1*row,4*col:5*col]
-	a53 = a[2*row:3*row,4*col:5*col]
-	a54 = a[3*row:4*row,4*col:5*col]
-	a55 = a[4*row:5*row,4*col:5*col]
+	a51 = a[4*col:5*col,0:row]
+	a52 = a[4*col:5*col,row:2*row]
+	a53 = a[4*col:5*col,2*row:3*row]
+	a54 = a[4*col:5*col,3*row:4*row]
+	a55 = a[4*col:5*col,4*row:5*row]
 
 	return (a11, a12, a13, a14, a15, 
 	  a21, a22, a23, a24, a25, 
@@ -613,15 +623,19 @@ def div5x5(a):
 	  a41, a42, a43, a44, a45, 
 	  a51, a52, a53, a54, a55)
 
+
+
 def mat455(a,b,depth):
-
-	a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45 = div4x5(a)
-	b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45, b51, b52, b53, b54, b55 = div5x5(b)
-
 
 	if depth == 0:
 		return strassenInit(a,b,True)
 	else:
+
+
+		a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45 = div4x5(a)
+		b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45, b51, b52, b53, b54, b55 = div5x5(b)
+
+
 		m1 =mat455( a21+a31+2*a23+2*a33+a24+a34,-b11+b21+b31+b12-b22-b32-b13+b23+b33, depth-1)
 		m2 =mat455( -a11+a41-a12+a42-a13+a43-a14+a44,-2*b13+b33-b53+2*b15-b35+b55, depth-1)
 		m3 =mat455( -a31-a32-a34+a35,-b23+b14-b44+b54, depth-1)
@@ -725,15 +739,18 @@ def mat455(a,b,depth):
 	return result
 
 
+
 def mat555mod2(a,b,depth):
-
-	a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45, a51, a52, a53, a54, a55 = div5x5(a)
-	b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45, b51, b52, b53, b54, b55 = div5x5(b)
-
 
 	if depth == 0:
 		return strassenInit(a,b,False)
 	else:
+
+
+		a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45, a51, a52, a53, a54, a55 = div5x5(a)
+		b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45, b51, b52, b53, b54, b55 = div5x5(b)
+
+
 		m1 =mat555mod2( a22,b24, depth-1)
 		m2 =mat555mod2( a22^a42^a43,b23^b33^b34, depth-1)
 		m3 =mat555mod2( a22^a42^a45,b22^b52^b54, depth-1)
@@ -855,21 +872,147 @@ def mat555mod2(a,b,depth):
 		c53 = m26^m35^m37^m43^m53^m65^m66^m68^m70^m73^m76
 		c54 = m5^m6^m12^m15^m16^m35^m37^m43^m51^m52^m53^m54^m55^m65^m68^m70^m73^m77
 		c55 = m26^m32^m33^m36^m39^m40^m46^m48^m57^m62^m66^m74^m76^m79^m80^m85^m87^m94
+		m1 =mat555mod2( -a12-a22-2*a42^a52-a23-a33-3*a43^a53-a14-a24-2*a44^a54,2*b31^2*b41^b32^b42, depth-1)
+		m2 =mat555mod2( a12-a13^a14-a15^a25^2*a45,b11^2*b21-b31-b41-b51^2*b22-2*b13^2*b23^2*b33^2*b43^2*b53-b14^2*b24^b34^b44^b54-b15^b25^b35^b45^b55, depth-1)
+		m3 =mat555mod2( -a23-a33-3*a43^a53,b21^b31^b22^b32^b23^b33^b25^b35, depth-1)
+		m4 =mat555mod2( -a31-2*a41^a51-a23-3*a43,b11-b21-b31^b12-b22-b32^2*b13-b23-b33-b24-b34^b25^b35, depth-1)
+		m5 =mat555mod2( a22^3*a42-a23-3*a43-a24-3*a44^a35^2*a45-a55,b41^b42^b43^b44, depth-1)
+		m6 =mat555mod2( a22^3*a42-a52-a14-a24-3*a44^a54,b41^b51^b42^b52-b13^b23^b33^b43^b53, depth-1)
+		m7 =mat555mod2( -4*a11^4*a21^2*a31^12*a41-2*a51-2*a12^a22^a32^3*a42-a52-2*a13^3*a23^a33^9*a43-a53^2*a14-a24-a34-3*a44^a54-2*a15^2*a25^4*a45,b31^b32^b33^b34, depth-1)
+		m8 =mat555mod2( a22^3*a42-a52-a24-3*a44^a54,-2*b41-2*b51-b12^b32-b42-b52-b13^b33^b43^b53-b14^b34^b44^b54-b15^b35^b45^b55, depth-1)
+		m9 =mat555mod2( -2*a11^2*a21^2*a31^8*a41-2*a51-a12^a32^a42-a52-a13^2*a23^a33^7*a43-a53^a14-a34-a44^a54-a15^a25^2*a45,b25, depth-1)
+		m10 =mat555mod2( a11-a21-a31-4*a41^a51^a13-a23-3*a43-a14^a15-a25-2*a45,b11^b21^b31^b41^b22^b32^b42^b52-b13^b23^b33^b43^2*b53-b14^b24^b34^b44^b54-b15^b25^b35^b55, depth-1)
+		m11 =mat555mod2( a12^a22^3*a42-a52-a13-a23-3*a43^a53-a24-3*a44^a54^a25^3*a45-a55,b11-b31^b12-b32^b53, depth-1)
+		m12 =mat555mod2( a12-a13^a14,-b41-b51^2*b43^2*b53^b44^b54^b45^b55, depth-1)
+		m13 =mat555mod2( a11-a21-a31-4*a41^a51,-b11-b12-b13^b21^b22^b23^b31^b32^b33^b34-b15^b25-b14^b24^b51^b52^b53^b54^b55^b45^b41^b42^b43^b44^b35, depth-1)
+		m14 =mat555mod2( -a11^a21^a31^4*a41-a51-a13^a23^a33^4*a43-a53,-b25^b35, depth-1)
+		m15 =mat555mod2( a24^3*a44-a54-a25-3*a45^a55,-b31-b51^b12-b32^b53^b14^b54^b15^b55, depth-1)
+		m16 =mat555mod2( a11-a21-2*a41^a12^a42-a23-3*a43-2*a14^a24^a34^3*a44-a54^2*a15-2*a25-4*a45,b21^b22^b23^b24^b25, depth-1)
+		m17 =mat555mod2( -a15-a35-a45^2*a55,2*b51^b52, depth-1)
+		m18 =mat555mod2( a15-a25^a35-a45-2*a55,-b51^b54, depth-1)
+		m19 =mat555mod2( -a11^a51-a13^a53-a24-3*a44^a54^a25^3*a45-a55,-b11^b52^b53^b14^b54^b15^b55, depth-1)
+		m20 =mat555mod2( -a12-a22-2*a42^a52-a23-a33-3*a43^a53^a24^a34^3*a44-a54,-2*b21^2*b41-b22^b42, depth-1)
+		m21 =mat555mod2( a14,b41^b51^b42^b52, depth-1)
+		m22 =mat555mod2( a11^a13-a25^a35-a45-a55,-b11-b12^b53, depth-1)
+		m23 =mat555mod2( -a11^a21-a31^a41^2*a51-a13^a53,-b11^b14, depth-1)
+		m24 =mat555mod2( -a21-2*a41,-b11-b51^b13^b53^b15^b55, depth-1)
+		m25 =mat555mod2( -a13^a53,-b11^b31-b12^b32-b13^b33-b15^b35, depth-1)
+		m26 =mat555mod2( 2*a11-2*a21-a31-6*a41^a51^2*a12-a22-a32-3*a42^a52-a23-3*a43-2*a14^a24^a34^3*a44-a54^2*a15-2*a25-4*a45,-b21^b31-b22^b32-b23^b33-b24^b34, depth-1)
+		m27 =mat555mod2( -a12-a22-2*a42^a52^a13^a23^2*a43-a53-a14-a24-2*a44^a54,2*b31^b32, depth-1)
+		m28 =mat555mod2( -a21-3*a41-a23-3*a43^a25-a35^a45^a55,b11^b12, depth-1)
+		m29 =mat555mod2( -a12^a13,b11^2*b21-b31-b41-b51^2*b22-2*b13^2*b23^2*b33^2*b43^2*b53-b14^2*b24^b34^b44^b54-b15^b35^b45^b55, depth-1)
+		m30 =mat555mod2( -a22-3*a42^a52^a23^3*a43-a53^a24^3*a44-a54-a25-3*a45^a55,-b11^b31-b12^b32, depth-1)
+		m31 =mat555mod2( -a21-3*a41^a51-a23-3*a43^a53-a24-3*a44^a54^a25^3*a45-a55,-b11^b14^b15, depth-1)
+		m32 =mat555mod2( -a12-a22-3*a42^a52^a14^a24^3*a44-a54,-b13^b23^b33, depth-1)
+		m33 =mat555mod2( -a14^a24^a34^4*a44-a54^a15-a25-a35-4*a45^a55,b41^b42^b43^b44^b45, depth-1)
+		m34 =mat555mod2( 2*a14-a24-a34-3*a44^a54-2*a15^2*a25^4*a45,3*b31^3*b41^2*b32^2*b42^b34^b44, depth-1)
+		m35 =mat555mod2( a11-a51^a13-a53,b12^b52^b13^b53^b14^b54^b15^b55, depth-1)
+		m36 =mat555mod2( 3*a11-3*a21-2*a31-10*a41^2*a51^2*a12-a22-a32-3*a42^a52^a13-2*a23-a33-7*a43^a53-2*a14^a24^a34^3*a44-a54^2*a15-2*a25-4*a45,b31^b32^b33^b34^b25, depth-1)
+		m37 =mat555mod2( -a11^a21^2*a41-a13^a14-a15^a25^2*a45,-2*b21-2*b31-b22-b32-b13^b23^b33, depth-1)
+		m38 =mat555mod2( -a13^a53,2*b31-b12^2*b32-b13^b33-b14^b34-b15^b35, depth-1)
+		m39 =mat555mod2( -a12-a22-2*a42^a52,3*b21^3*b31^2*b22^2*b32^b23^b33^b25^b35, depth-1)
+		m40 =mat555mod2( -a11^a21^a31^4*a41-a51-a13^a23^3*a43,b21^b31^b41-b12^b22^b32^b42^b52-2*b13^b23^b33^b43^2*b53-b14^b24^b34^b44^b54-b15^b55, depth-1)
+		m41 =mat555mod2( 2*a11-2*a21-4*a41^2*a13-a23-a33-3*a43^a53-2*a14^a24^a34^3*a44-a54^2*a15-2*a25-4*a45,3*b21^3*b31^2*b22^2*b32^b24^b34, depth-1)
+		m42 =mat555mod2( -a12-a22-2*a42^a52^a23^2*a43,3*b31^3*b41^2*b32^2*b42^b33^b43^b35^b45, depth-1)
+		m43 =mat555mod2( a35^a45-a55,2*b51^b52, depth-1)
+		m44 =mat555mod2( a12^a22^3*a42-a52-a23-3*a43,-b11^b31-b41^b51-b12^b32-b42^b52-b13^b33-b43-b44-b25-b45, depth-1)
+		m45 =mat555mod2( -a21-3*a41^a51-a23-3*a43^a53,b13, depth-1)
+		m46 =mat555mod2( -a31-2*a41^a51-a35-2*a45^a55,-b15^b25^b35, depth-1)
+		m47 =mat555mod2( -a11-a13,b13^b53, depth-1)
+		m48 =mat555mod2( -a12-a22-3*a42^a52^a23^3*a43^a14^a24^3*a44-a54-a35-2*a45^a55,-b41^b51-b42^b52-b43-b44-b45, depth-1)
+		m49 =mat555mod2( a11-a21-3*a41^a13-a23-3*a43,b11^b12^b13, depth-1)
+		m50 =mat555mod2( -a14^a15-a25^a35-a45-a55,b51^b52^b53, depth-1)
+		m51 =mat555mod2( a12^a22^2*a42-a52^a23^a33^3*a43-a53,b21^3*b31^2*b41^b22^2*b32^b42^b23^b33^b25^b35, depth-1)
+		m52 =mat555mod2( a12^a22^2*a42-a52-a23-2*a43^a14^a24^2*a44-a54,2*b31^3*b41^b32^2*b42^b43^b45, depth-1)
+		m53 =mat555mod2( -a11^a21^2*a41,-b11^b21^b31-b12^b22^b32-b13^b23^b33-b14^b24^b34, depth-1)
+		m54 =mat555mod2( -a22-3*a42^a23^3*a43^a14-a34-a44^a54-a15^a25^2*a45,b41^b42^b43^b44-b25, depth-1)
+		m55 =mat555mod2( -a11^a21^2*a41-a13^a23^2*a43^2*a14-a24-a34-3*a44^a54-2*a15^2*a25^4*a45,-3*b31-3*b41-2*b32-2*b42-b34-b44^b25^b45, depth-1)
+		m56 =mat555mod2( -a11^a21^a31^4*a41-a51-a13^a23^3*a43-a24-3*a44^a54-a15^a25^a35^4*a45-a55,b41^b42^b52^b43^2*b53^b44^b54^b55, depth-1)
+		m57 =mat555mod2( a12^a22^a32^3*a42-2*a52-a23-a33-3*a43^a53,-b21^b41-b22^b42-b23^b43-b25^b45, depth-1)
+		m58 =mat555mod2( -a11^a21^2*a41^a12-a13^a14-a15^a25^2*a45,b11-b21-b31-2*b13^2*b23^2*b33-b14^b24^b34-b15^b25^b35, depth-1)
+		m59 =mat555mod2( -a22-3*a42^a52,-b11^b21^b31^b41^b51-b12^b22^b32^b42^b52-b13^b23^b33^b43^b53, depth-1)
+		m60 =mat555mod2( a22^3*a42-a52^a23^3*a43-a53-a24-3*a44^a54,-b12^b32-b13^b33-b14^b34-b15^b35, depth-1)
+		m61 =mat555mod2( -a12-a22-2*a42^a52^a23^2*a43-a24-2*a44,-3*b21^3*b41-2*b22^2*b42^b43-b24^b45, depth-1)
+		m62 =mat555mod2( a12-a52,b23-b24^b25, depth-1)
+		m63 =mat555mod2( a11-a12-a22-3*a42^a52^2*a13^a23^3*a43-a53^a14^a24^3*a44-a54-a15-a25-3*a45^a55,b53, depth-1)
+		m64 =mat555mod2( -2*a14^a24^a34^3*a44-a54^2*a15-2*a25-4*a45,b21-3*b31-2*b41^b22-2*b32-b42^b23^b43^b24-b34, depth-1)
+		m65 =mat555mod2( -a14^a15-a25-2*a45,b21-2*b31-2*b41^b22-b32-b42-b13^b23^b33^b43^b53^b24, depth-1)
+		m66 =mat555mod2( a25-a35^a45^a55,b13^b53^b15^b55, depth-1)
+		m67 =mat555mod2( a22^3*a42-a23-3*a43^2*a14-a24-a34-3*a44^a54-2*a15^2*a25^4*a45,b21^b41^b22^b42^b23^b43^b24^b44, depth-1)
+		m68 =mat555mod2( -a15^a25^2*a45,b41^b51^b42^b52^b43^b53^b44^b54, depth-1)
+		m69 =mat555mod2( a35^2*a45-a55,-b15^b25^b35^b45^b55, depth-1)
+		m70 =mat555mod2( -a14^a54,b43-b44^b45, depth-1)
+		m71 =mat555mod2( a12-a13,b21-b41-b51-b12^b22^b32-2*b13^b23^2*b33^2*b43^2*b53-b14^b24^b34^b44^b54-b15^b35^b45^b55, depth-1)
+		m72 =mat555mod2( a11-a31-a41,2*b11^b12, depth-1)
+		m73 =mat555mod2( -a11^a21^a31^4*a41-a51^a35^2*a45-a55,b41^b51^b42^b52^b43^b53^b44^b54-b15^b25^b35^b45^b55, depth-1)
+		m74 =mat555mod2( -a21-2*a41^a25^2*a45,-b51^b53^b55, depth-1)
+		m75 =mat555mod2( -a25^a35-a45-a55,b11^b51^b12^b52^b13^b53^b15^b55, depth-1)
+		m76 =mat555mod2( -a12-a22-a32-3*a42^2*a52^a23^a33^3*a43-a53-a24-a34-3*a44^a54,-b21^b41-b22^b42^b43-b24^b45, depth-1)
+		m77 =mat555mod2( a14^a24^3*a44-a54,-b13^b23^b33^b43^b53, depth-1)
+		m78 =mat555mod2( a12^a22^a32^3*a42-2*a52-a23-a33-3*a43^a53^a14^a24^a34^3*a44-2*a54,b41^b42^b43^b45, depth-1)
+		m79 =mat555mod2( -a32-a42^a52^a33^a43-a53-a34-a44^a54,3*b21^2*b22^b24, depth-1)
+		m80 =mat555mod2( -a22-2*a42^a23^2*a43-a24-2*a44,3*b21^2*b22^b24, depth-1)
+		m81 =mat555mod2( a11-a51^a13-a53-a15^a55,b52^b53^b54^b55, depth-1)
+		m82 =mat555mod2( a11-a21-a31-4*a41^a51^a15-a25-a35-4*a45^a55,b41^b51^b42^b52^b43^b53^b44^b54^b45^b55, depth-1)
+		m83 =mat555mod2( a11-a21-2*a41^a13-a23-2*a43,-2*b31-3*b41-b32-2*b42^b33-b44^b25^b35^b45, depth-1)
+		m84 =mat555mod2( -a11^a21^2*a41-a13^a23^2*a43^a14-a24-2*a44-a15^a25^2*a45,3*b21-3*b41^2*b22-2*b42^b24-b44^b25^b45, depth-1)
+		m85 =mat555mod2( -a22-a32-3*a42^a52^a23^a33^3*a43-a53-a24-a34-3*a44^a54,b21^b22^b24, depth-1)
+		m86 =mat555mod2( a22^3*a42-a52,3*b11-3*b21-3*b31-3*b41-3*b51^3*b12-2*b22-3*b32-2*b42-2*b52^b13-b33^b24^b44^b54^b25^b45^b55, depth-1)
+		m87 =mat555mod2( a12,-b11^b21^b31-b12^b22^b32, depth-1)
+		m88 =mat555mod2( a31^2*a41-a51^a23^3*a43,b11^b12^b13^b25^b35, depth-1)
+		m89 =mat555mod2( a21^2*a41-a25^a35-a45-a55,b11-b51^b12^b13^b53^b15^b55, depth-1)
+		m90 =mat555mod2( -a11^a51,2*b11^b12, depth-1)
+		m91 =mat555mod2( -a12-a22-3*a42^a52^a13^a24^3*a44-a54,-b41-b51-b12^b32-b13^b33^2*b43^2*b53-b14^b34^b44^b54-b15^b35^b45^b55, depth-1)
+		m92 =mat555mod2( a21-a31^a41^a51-a25^a35-a45-a55,b11^b12^b13^b15, depth-1)
+		m93 =mat555mod2( a14-a34-a44^a54-a15^a25^2*a45,b25^b45, depth-1)
+		m94 =mat555mod2( a14^a24^3*a44-a54-a35-2*a45^a55,b41^b42^b43^b53^b44, depth-1)
+		m95 =mat555mod2( -a12-a22-3*a42^a52^a13^a23^3*a43-a53,-b13^b33^b53, depth-1)
+		m96 =mat555mod2( -a12-a22-3*a42^a52^a23^3*a43,b21^b22-b13^b23^b33^b24, depth-1)
+		m97 =mat555mod2( -a11^a51-a13^a53^a25-a35^a45^a55,b11^b12^b52^b13^b53^b54^b15^b55, depth-1)
+		
+		c11 = -m50^m53-m58-2*m21-m12^m2-m6-m8-m11^m43^m46^m37^m66-m71^m73-m63^m65-m32^m30^m22^m24^m82-m87^m89-m91
+		c12 = 2*m50-m53^m58^3*m21^m12-m2^m6^m8^2*m11-m43-m46-m37-2*m66^m71-m73^2*m63-m65^m32-2*m30-m75-2*m22-m24-m82^2*m87-m89^m91
+		c13 = -m6-m8-m11-m21-m29^m30-m32-m47-m63-2*m71-m91
+		c14 = m49-m50^m53^m56-m19^m4^m6^m8-m11-m40^m35^m94^m97^m66-m68^m71-m74-m63^m31^m32^m30^m75^m22^m23^m24-m81-m87^m88^m91^m92
+		c15 = m2^m10^m22^m29^m40^m43^m46^m47-m50^m65^m66^m68^m73^m74^m82^m88^m89
+		c21 = -3*m50-9*m51-7*m52-2*m53^m54^2*m56^2*m58-6*m59^2*m60-3*m16^2*m12-2*m13-9*m1^3*m2-9*m3-2*m6^5*m10-3*m11-3*m42^3*m43-2*m46^3*m40-4*m34-5*m37^2*m38-6*m39^2*m94^m66^m67-2*m70-3*m71-2*m72-2*m73-3*m63^4*m64^2*m32-2*m33-4*m61^m62^2*m27-2*m28^3*m30^3*m76^3*m22^m24-4*m77^3*m78-m80-3*m83-3*m84^3*m85^2*m86^2*m87^3*m88^m89-2*m90^2*m91-2*m93
+		c22 = 6*m50^15*m51^13*m52^2*m53-2*m54-2*m56-2*m58^8*m59-2*m60^6*m16-2*m12^2*m13^15*m1-6*m2^15*m3^4*m6-8*m10^6*m11^6*m42-3*m43^2*m44^2*m46^2*m48-6*m40^8*m34^8*m37-2*m38^9*m39-2*m94^2*m96-2*m66-2*m67^4*m70^6*m71^2*m72^2*m73^6*m63-8*m64-2*m32^4*m33^7*m61-2*m62-2*m27^4*m28-6*m30-m75-5*m76-6*m22-m24^6*m77-5*m78^m80^6*m83^6*m84-5*m85-2*m86-4*m87-6*m88-m89^2*m90-2*m91^4*m93
+		c23 = 2*m49-3*m51-3*m52^3*m54^3*m55-3*m16-3*m1-3*m3^2*m5^3*m7^3*m9-3*m11-m47-m34^3*m36-3*m37-3*m39^2*m94-2*m96^m67-2*m70-3*m71-3*m63^4*m64-3*m65^2*m32-3*m61-2*m28-3*m29^3*m30^m76^2*m22-2*m77^m78-3*m84^m85-3*m93
+		c24 = 3*m49-3*m50-3*m51-3*m52-2*m53^m54-3*m55^3*m56-2*m59-3*m19-3*m16-2*m13-3*m1^3*m2-3*m3^m4-2*m6^3*m10-3*m11-3*m42-2*m44-2*m48-7*m34^m35^m94^m97^m66^m67^2*m69-3*m71-2*m72-2*m73-3*m74-3*m63^4*m64^3*m65^3*m31-2*m32-2*m33^m62-2*m28^3*m30^m75^m76^3*m22^m23^m24^m78-3*m81-3*m83^m85^2*m87^4*m88-2*m89-2*m90^3*m92^m93
+		c25 = -2*m49-3*m50-2*m54-3*m55^3*m2-2*m5-3*m7-3*m9^3*m10^3*m43-2*m46^m47^3*m40-3*m34-3*m36^m66-2*m69^3*m74^3*m65-2*m33^3*m29^m22-3*m83^m88^3*m89-2*m92^m93
+		c31 = -m49-2*m50^2*m51-m55^m56^m57-3*m59^m60^m19^2*m20-2*m21^m15^m17-m13^m14^3*m2^3*m3-m4-2*m6-m8^3*m10-2*m11^m41^4*m43^m44^m45^m48^2*m40-m34^m35-m36-2*m37^m38^2*m39^m94^m96^m66-3*m71-2*m72-2*m63^m64^m65^m62^m26-m28^3*m30^m76^2*m22^m24-2*m77-m79-m80^m82-m83^3*m85^m86^m89-m90
+		c32 = 2*m49^4*m50-3*m51^2*m55-m56-2*m57^4*m59-m60-2*m19-3*m20^3*m21-2*m15-m17^m13-2*m14-5*m2-5*m3^2*m4^3*m6^m8-5*m10^4*m11-2*m41-4*m43-m44-2*m45-m48-4*m40^2*m34-2*m35^2*m36^4*m37-m38-3*m39-m94-m96-2*m66^5*m71^2*m72^4*m63-2*m64-m65-2*m62-2*m26^2*m28-6*m30-m75-2*m76-4*m22-m24^3*m77^m79^m80-m82^2*m83-5*m85-m86-m89^m90
+		c33 = m49^m51^m20-m21^m3-m4-m6^m7-m8-3*m11^m41^m45-m47-2*m37^m39-m95-4*m71-2*m63^m64-2*m65^m26-m28-3*m29^3*m30^m22-m77^m85-m88-m91
+		c34 = 2*m49-2*m50-m55^3*m56^m57-m59-2*m19^m15^m17-m18-m13^m14^2*m2^m3^m4^m8^2*m10-2*m11^m43^m45-m40-2*m34^m35-m36^m38^2*m94^m96^m66-m68^m69-m71-2*m72-m73-3*m74-2*m63^m64^2*m65^3*m31^m62^m26-m28^3*m30^m76^2*m22^m23^m24-m25-3*m81-m83^m85^2*m88-2*m89-m90^m91^3*m92
+		c35 = -2*m49-2*m50-m55^m19^m15^m18^m14^3*m2-m7^3*m10^m11^3*m43^m44^m47^m48^3*m40-m34^m35-m36^m94^m95^m97^m66^m68-m69^m73^3*m74^3*m65^3*m29^m75^m22^m25^m81^m82-m83^m88^3*m89-2*m92
+		c41 = m50^3*m51^2*m52^m53-m56-m58^3*m59-m60^m16-m12^m13^3*m1-m2^3*m3^m6-2*m10^m11^m42-m43^m46-m40^m34^2*m37-m38^2*m39-m94^m70^m71^m72^m73^m63-m64-m32^m33^m61-m27^m28-m30-m22^2*m77^m83^m84-m86-m87-m88^m90-m91^m93
+		c42 = -2*m50-5*m51-4*m52-m53^m56^m58-4*m59^m60-2*m16^m12-m13-5*m1^2*m2-5*m3-2*m6^3*m10-2*m11-2*m42^m43-m44-m46-m48^2*m40-2*m34-3*m37^m38-3*m39^m94-m96-2*m70-2*m71-m72-m73-2*m63^2*m64^m32-2*m33-2*m61^m27-2*m28^2*m30^2*m22-3*m77-2*m83-2*m84^m86^2*m87^2*m88-m90^m91-2*m93
+		c43 = -m49^m51^m52-m54-m55^m16^m1^m3-m5-m7-m9^m11-m36^m37^m39-m94^m96^m70^m71^m63-m64^m65-m32^m61^m28^m29-m30-m22^m77^m84^m93
+		c44 = -m49^m50^m51^m52^m53^m55-m56^m59^m19^m16^m13^m1-m2^m3^m6-m10^m11^m42^m44^m48^2*m34-m69^m71^m72^m73^m74^m63-m64-m65-m31^m32^m33^m28-m30-m22^m81^m83-m87-m88^m89^m90-m92
+		c45 = -m2^m5^m7^m9-m10-m29^m33^m34^m36-m40-m43^m46^m49^m50^m54^m55-m65^m69-m74^m83-m89^m92
+		c51 = -m49-m52^m53^m54-m58^m19-2*m21^m15^m17-m12^m2-m6-m8^2*m43^m44^m45^m46^m48-m34^m35^m37^m96^m66^m67^m70-m71^m73^m64^m65-m32^m33-m61^m62-m27^m28^m30^3*m76^m24^3*m78-m80^m82^3*m85-m87^m89^m90-m91^m93
+		c52 = 2*m49^m52-m53-2*m54^m58-2*m19^3*m21-2*m15-m17^m12-m2^m6^m8-2*m43-2*m44-2*m45-m46-2*m48^2*m34-2*m35-m37-2*m96-2*m66-2*m67-2*m70^m71-m73-2*m64-m65^m32-2*m33^m61-2*m62^m27-2*m28-2*m30-m75-5*m76-m24-5*m78^m80-m82-5*m85^2*m87-m89-m90^m91-2*m93
+		c53 = -m49-m21-m5-m6-m8-m11^m45-m47-m34-m94-m95^m96^m67^m70-2*m71^m64-m32^m28-m29^m30^m76-m22^m78^m85-m91
+		c54 = m53^m54^m56^m15^m17-m18^m4^m6^m8^m43^m44^m45^m48-m40-m34^m35^m38^m94^m96^m66^m67-m68^m71-m74^m64^m31^m32^m33^m62^m28^m30^m76^m23^m24-m25^m78-m81^m85-m87^m88^m90^m91^m92^m93
+		c55 = m54^m19^m15^m18^m2^m5^m10^m11^m43^m44^m46^m47^m48^m40^m35^m94^m95^m97^m66^m68^m73^m74^m65^m33^m29^m75^m22^m25^m81^m82^m88^m89^m93
 
 	result = np.concatenate((np.concatenate((c11, c21, c31, c41, c51), axis=0), np.concatenate((c12, c22, c32, c42, c52), axis=0), np.concatenate((c13, c23, c33, c43, c53), axis=0), np.concatenate((c14, c24, c34, c44, c54), axis=0), np.concatenate((c15, c25, c35, c45, c55), axis=0)), axis=1)
 
 	return result
 
 
+
 def mat555(a,b,depth):
-
-	a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45, a51, a52, a53, a54, a55 = div5x5(a)
-	b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45, b51, b52, b53, b54, b55 = div5x5(b)
-
 
 	if depth == 0:
 		return strassenInit(a,b,True)
 	else:
+
+
+		a11, a12, a13, a14, a15, a21, a22, a23, a24, a25, a31, a32, a33, a34, a35, a41, a42, a43, a44, a45, a51, a52, a53, a54, a55 = div5x5(a)
+		b11, b12, b13, b14, b15, b21, b22, b23, b24, b25, b31, b32, b33, b34, b35, b41, b42, b43, b44, b45, b51, b52, b53, b54, b55 = div5x5(b)
+
+
 		m1 =mat555( -a51+2*a52+2*a54-2*a55,3*b11+b21+b41, depth-1)
 		m2 =mat555( a53,2*b12-b32-b52-2*b14+b34+b54+4*b15-2*b35-2*b55, depth-1)
 		m3 =mat555( a51-2*a52-a54+2*a55,2*b11+b41, depth-1)
@@ -998,6 +1141,14 @@ def mat555(a,b,depth):
 
 	return result
 
+
+
+
+
+
+
+
+#END OF SCRIPT GEN 
 
 
 

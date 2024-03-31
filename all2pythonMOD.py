@@ -8,8 +8,10 @@ def divide(m,n,f):
     
     f.write(f'def div{m}x{n}(a):\n\n')
     
+    #length of col
     f.write(f'\tcol = len(a)//{m}\n')
-    f.write(f'\trow = len(a[1])//{n}\n\n')
+    #length of row
+    f.write(f'\trow = len(a[0])//{n}\n\n')
       
     #variable assignment
     
@@ -20,25 +22,25 @@ def divide(m,n,f):
             f.write('\t')
             if i == 0:
                 if j == 0:
-                    f.write(f'a{i+1}{j+1} = a[{j}:row,0:col]\n')
+                    f.write(f'a{i+1}{j+1} = a[0:col,{j}:row]\n')
                 elif j == 1:
-                    f.write(f'a{i+1}{j+1} = a[row:{j}*row,0:col]\n')
+                    f.write(f'a{i+1}{j+1} = a[0:col,row:{j+1}*row]\n')
                 else:
-                    f.write(f'a{i+1}{j+1} = a[{j}*row:{j+1}*row,0:col]\n')
+                    f.write(f'a{i+1}{j+1} = a[0:col,{j}*row:{j+1}*row]\n')
             elif i == 1:
                 if j == 0:
-                   f.write(f'a{i+1}{j+1} = a[{j}:row,col:{i}*col]\n')
+                   f.write(f'a{i+1}{j+1} = a[col:{i+1}*col,{j}:row]\n')
                 elif j == 1:
-                   f.write(f'a{i+1}{j+1} = a[row:{j}*row,col:{i}*col]\n')
+                   f.write(f'a{i+1}{j+1} = a[col:{i+1}*col,row:{j+1}*row]\n')
                 else:
-                   f.write(f'a{i+1}{j+1} = a[{j}*row:{j+1}*row,col:{i}*col]\n')
+                   f.write(f'a{i+1}{j+1} = a[col:{i+1}*col,{j}*row:{j+1}*row]\n')
             else:
                 if j == 0:
-                   f.write(f'a{i+1}{j+1} = a[{j}:row,{i}*col:{i+1}*col]\n')
+                   f.write(f'a{i+1}{j+1} = a[{i}*col:{i+1}*col,{j}:row]\n')
                 elif j == 1:
-                   f.write(f'a{i+1}{j+1} = a[row:{j}*row,{i}*col:{i+1}*col]\n')
+                   f.write(f'a{i+1}{j+1} = a[{i}*col:{i+1}*col,row:{j+1}*row]\n')
                 else:
-                   f.write(f'a{i+1}{j+1} = a[{j}*row:{j+1}*row,{i}*col:{i+1}*col]\n')
+                   f.write(f'a{i+1}{j+1} = a[{i}*col:{i+1}*col,{j}*row:{j+1}*row]\n')
     
     
     
@@ -98,8 +100,17 @@ def func_head(f,mod0,tensor):
     f.write("(a,b,depth):")
     f.write("\n\n")
     #write matrix variables
+    f.write("\tif depth == 0:\n")
+    if mod0:
+        f.write("\t\treturn strassenInit(a,b,True)")
+    else:
+        f.write("\t\treturn strassenInit(a,b,False)")
+        
+    f.write("\n\telse:\n")
     #a
-    f.write("\t")
+    f.write("\n\n")
+    
+    f.write("\t\t")
     for i in range(1,m+1):
         for j in range(1,n+1):
             if i == m and j == n:
@@ -108,7 +119,7 @@ def func_head(f,mod0,tensor):
                 f.write(f'a{i}{j}, ')
     f.write(f'= div{m}x{n}(a)\n')
     #b
-    f.write("\t")
+    f.write("\t\t")
     for i in range(1,n+1):
         for j in range(1,p+1):
             if i == n and j == p:
@@ -118,13 +129,7 @@ def func_head(f,mod0,tensor):
     f.write(f'= div{n}x{p}(b)\n')
     
     f.write("\n\n")
-    f.write("\tif depth == 0:\n")
-    if mod0:
-        f.write("\t\treturn strassenInit(a,b,True)")
-    else:
-        f.write("\t\treturn strassenInit(a,b,False)")
-        
-    f.write("\n\telse:\n")
+   
     
 #write functions by reading from file 
 
@@ -205,6 +210,7 @@ def all2python(filename,mod0,w):
         w.write("\n\n")
 
     #call actual func creation
+    w.write("\n\n")
     func_head(w, mod0, t)
     
     #call read
