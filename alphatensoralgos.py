@@ -1,5 +1,17 @@
 import numpy as np
 
+#naive matmul binary
+def naiveSquare(a,b):
+    n = len(a)
+    c = np.zeros([n,n])
+    c = c.astype(bool)
+    
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                c[i,j] = c[i,j] ^ (a[i,k] * b[k,j])
+            
+    return c
 
 #strassenMod2
 
@@ -29,7 +41,8 @@ def strassen(a,b,depth,m,n):
 def strassenMod2(a,b,depth,m,n):
     
     if depth < 1:
-        return a @ b
+    #only for squares rn
+        return naiveSquare(a,b)
     
     
     P1 = strassenMod2(a[0:m,0:m],b[0:m,m:n]^b[m:n,m:n], depth-1, m>>1,m)
@@ -1142,17 +1155,7 @@ def mat555(a,b,depth):
 	return result
 
 
-
-
-
-
-
-
 #END OF SCRIPT GEN 
-
-
-
-
 
 
 #decide what algoritmm to use :3
