@@ -11,19 +11,22 @@ df5 = df5.melt(id_vars=['log5','log2'])
 naive = alt.Chart().mark_line(point=True).encode(
                 x=alt.X('log2').scale(zero=False),
                 y=alt.Y('value').scale(zero=False),
-                color='variable:N'
+                color='variable:N',
+                tooltip=['log2','value','variable']
         ).interactive()
 
 strassen = alt.Chart().mark_line(point=True).encode(
                 x=alt.X('log2').scale(zero=False),
                 y=alt.Y('value').scale(zero=False),
-                color='variable:N'
+                color='variable:N',
+                tooltip=['log2','value','variable']
         ).interactive()
 
 alpha = alt.Chart().mark_line(point=True).encode(
                 x=alt.X('log2').scale(zero=False),
                 y=alt.Y('value').scale(zero=False),
-                color='variable:N'
+                color='variable:N',
+                tooltip=['log2','value','variable']
         ).interactive()
 
 fig = alt.layer(alpha, strassen, naive, data=df4).facet('log4:N')
@@ -32,19 +35,22 @@ fig.save("log4.html",embed_options={'renderer':'svg'})
 naive = alt.Chart().mark_line(point=True).encode(
                 x=alt.X('log2').scale(zero=False),
                 y=alt.Y('value').scale(zero=False),
-                color='variable:N'
+                color='variable:N',
+                tooltip=['log2','value','variable']
         ).interactive()
 
 strassen = alt.Chart().mark_line(point=True).encode(
                 x=alt.X('log2').scale(zero=False),
                 y=alt.Y('value').scale(zero=False),
-                color='variable:N'
+                color='variable:N',
+                tooltip=['log2','value','variable']
         ).interactive()
 
 alpha = alt.Chart().mark_line(point=True).encode(
                 x=alt.X('log2').scale(zero=False),
                 y=alt.Y('value').scale(zero=False),
-                color='variable:N'
+                color='variable:N',
+                tooltip=['log2','value','variable']
         ).interactive()
 
 fig = alt.layer(alpha, strassen, naive, data=df5).facet('log5:N')

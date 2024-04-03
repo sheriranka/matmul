@@ -16,12 +16,11 @@ Code that converted these formats to a notation i understand is from here
 
 ## CreateData.py
 
-Python version of CreateData.ipynb. Takes 4 numbers on the command line.
+Python version of CreateData.ipynb. Takes 3 numbers on the command line.
 
 - First two numbers are start and end of powers of 2.
  - Number 2 **MUST** be greater than number 1.
-- Third number is power of 4.
-- Fourth number is power of 5.
+- Third number is powers of different nums.
 
 ## Graphing.py
 
