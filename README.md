@@ -30,4 +30,4 @@ Python version of Graphing.ipynb. Takes no extra arguments.
 
 ## Extra
 
-All other here is done by me (so far)
+- loading.py from here https://github.com/Lguanghui/TermLoading

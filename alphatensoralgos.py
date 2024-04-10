@@ -1,5 +1,7 @@
 import numpy as np
 
+
+
 #naive matmul binary
 def naiveSquare(a,b):
     n = len(a)
@@ -11,6 +13,29 @@ def naiveSquare(a,b):
             for k in range(n):
                 c[i,j] = c[i,j] ^ (a[i,k] & b[k,j])
             
+    return c
+
+def naive(a,b):
+    n = len(a)
+    c = np.zeros([n,n])
+    
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                c[i,j] = c[i,j] + (a[i,k] * b[k,j])
+            
+    return c
+
+
+def naiRect(a,b,m,n,p):
+    
+    c = np.zeros([m,p])
+    
+    for i in range(m):
+        for j in range(p):
+            for k in range(n):
+                c[i][j] = c[i,j] + (a[i,k] * b[k,j])
+
     return c
 
 def naiveRect(a,b,m,n,p):
@@ -30,7 +55,7 @@ def naiveRect(a,b,m,n,p):
 def strassen(a,b,depth,m,n):
     
     if depth < 1:
-        return a @ b
+        return naive(a,b)
     
     P1 = strassen(a[0:m,0:m],b[0:m,m:n]-b[m:n,m:n], depth-1, m>>1,m)
     P2 = strassen(a[0:m,0:m]+a[0:m,m:n],b[m:n,m:n], depth-1, m>>1,m)
@@ -77,7 +102,7 @@ def strassenMod2(a,b,depth,m,n):
 def strassenRect(a,b,m,n,p,depth):
 
     if depth < 1:
-        return a @ b
+        return naiRect(a,b,m,n,p)
     
     mm = m >> 1 #num rows a
     nn = n >> 1 #num cols a & rows b
@@ -168,7 +193,7 @@ def strassenInit(a,b,mod2):
         else:
             if mod2:
                 return naiveSquare(a,b)
-            return a @ b
+            return naive(a,b)
     #if rectangular
     else:
         x = m
@@ -187,7 +212,7 @@ def strassenInit(a,b,mod2):
         else:
             if mod2:
                 return naiveRect(a,b,m,n,p)
-            return a @ b
+            return naiRect(a, b, m, n, p)
 
 
 ###THE FOLLOWING WAS GENERATED WITH SCRIPTS

@@ -6,12 +6,20 @@ from datetime import datetime
 import pandas as pd
 import sys
 
+
+import loading
+import os
+os.system("")
+
 if len(sys.argv) < 4:
     print("Not enough arguments passed.\nSee README for details.")
     sys.exit()
 elif int(sys.argv[2]) <= int(sys.argv[1]):
     print("Invalid values passed.\nSee README for details.")
     sys.exit()
+
+animation: loading.TermLoading = loading.TermLoading.shared()
+animation.show('Multiplying matrixes...', finish_message='Times saved to csv.')
 
 min2 = int(sys.argv[1])
 max2 = int(sys.argv[2])
@@ -42,9 +50,6 @@ for i in two:
         threes.append(i*j)
     Threes.append(threes)
 
-print(Fours)
-print(Fives)
-print(Threes)
 
 
 #log label array
@@ -154,7 +159,6 @@ times['AlphaTensor'] = times['AlphaTensor'].apply(lambda x: x.total_seconds())
 DF = pd.concat([times, df445], axis=1)
 DF.to_csv("log445.csv",index=False)
 
-print("log445 saved to file")
 
 timeAt = []
 timeStr = []
@@ -198,7 +202,6 @@ times['AlphaTensor'] = times['AlphaTensor'].apply(lambda x: x.total_seconds())
 DF = pd.concat([times, df445], axis=1)
 DF.to_csv("log445mod2.csv",index=False)
 
-print("log445mod2 saved to file")
 
 timeAt = []
 timeStr = []
@@ -241,7 +244,6 @@ times['AlphaTensor'] = times['AlphaTensor'].apply(lambda x: x.total_seconds())
 DF = pd.concat([times, df455], axis=1)
 DF.to_csv("log455.csv",index=False)
 
-print("log455 saved to file")
 
 timeAt = []
 timeStr = []
@@ -283,7 +285,6 @@ times['AlphaTensor'] = times['AlphaTensor'].apply(lambda x: x.total_seconds())
 DF = pd.concat([times, df4], axis=1)
 DF.to_csv("log444mod2.csv",index=False)
 
-print("log444mod2 saved to file")
 
 timeAt = []
 timeStr = []
@@ -294,8 +295,8 @@ for i in range(len(Fives)):
     for j in range(len(Fives[i])):
         #create matrixes
         k = Fives[i][j]
-        x = np.random.randint(0,5,size=(j,j))
-        y = np.random.randint(0,5,size=(j,j))
+        x = np.random.randint(0,5,size=(k,k))
+        y = np.random.randint(0,5,size=(k,k))
         
         #run code for alphatensor
         cur = datetime.now()
@@ -323,8 +324,6 @@ times['AlphaTensor'] = times['AlphaTensor'].apply(lambda x: x.total_seconds())
 
 DF = pd.concat([times, df5], axis=1)
 DF.to_csv("log555.csv",index=False)
-
-print("log555 saved to file")
 
 timeAt = []
 timeStr = []
@@ -366,6 +365,4 @@ times['AlphaTensor'] = times['AlphaTensor'].apply(lambda x: x.total_seconds())
 DF = pd.concat([times, df5], axis=1)
 DF.to_csv("log555mod2.csv",index=False)
 
-print("log555mod2 saved to file")
-
-print("All times saved succesfully.")
+animation.finished = True
