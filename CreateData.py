@@ -104,7 +104,7 @@ for i in range(len(two)):
 
         #run regular naive
         cur = datetime.now()
-        a @ b
+        at.naiRect(a,b,x,y,z)
         delta = datetime.now() - cur
         timeNaive.append(delta)
 
@@ -116,8 +116,6 @@ times['AlphaTensor'] = times['AlphaTensor'].apply(lambda x: x.total_seconds())
 
 DF = pd.concat([times, df345], axis=1)
 DF.to_csv("log345.csv",index=False)
-
-print("log345 saved to file")
 
 timeAt = []
 timeStr = []
@@ -146,7 +144,7 @@ for i in range(len(two)):
 
         #run regular naive
         cur = datetime.now()
-        a @ b
+        at.naiRect(a,b,x,y,z)
         delta = datetime.now() - cur
         timeNaive.append(delta)
 
@@ -231,7 +229,7 @@ for i in range(len(two)):
 
         #run regular naive
         cur = datetime.now()
-        a @ b
+        at.naiRect(a,b,x,y,z)
         delta = datetime.now() - cur
         timeNaive.append(delta)
 
@@ -312,7 +310,7 @@ for i in range(len(Fives)):
 
         #run regular naive
         cur = datetime.now()
-        x @ y
+        at.naive(x,y)
         delta = datetime.now() - cur
         timeNaive.append(delta)
 
